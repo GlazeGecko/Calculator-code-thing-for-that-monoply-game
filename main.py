@@ -9,6 +9,8 @@
 import time
 import math
 
+# Variables
+value = []
 def ordinalnumbers(n):
     if 10 <= n % 100 <= 20:
         suffix = 'th'
@@ -17,14 +19,43 @@ def ordinalnumbers(n):
     return str(n) + suffix
 
 def amount_players():
-    players = int(input("How many players are there? (input a number)"))
-    if players < 1:
-        print("Please input a number greater than 0\n")
-        return amount_players()
-    if type(players) is not int:
+    try:
+        players = int(input("How many players are there? (input a number) "))
+        if players < 1:
+            print("Please input a number greater than 0\n")
+            return amount_players()
+        if players > 10:
+            print("Please input a number less than 10\n")
+            return amount_players()
+        return players
+    except ValueError:
         print("Please input a number\n")
         return amount_players()
-    return players
+amount_players = amount_players()
 
 def get_player_name():
-    GetPlayerName = input(f"What is the {ordinalnumbers()} player's name?")
+    player_names = []
+    for i in range(amount_players):
+        i += 1
+        player_name = input(f"What is the {ordinalnumbers(i)} player's name? ")
+        player_names.append(player_name)
+    return player_names
+
+players = get_player_name()
+print(players)
+
+def value_for_player():
+    player_values = []
+    for i in range(amount_players):
+        i += 1
+        try:
+            value = input(f"Set the value for the {ordinalnumbers(i)} player (input in millions): ")
+            player_values.append(value)
+        except ValueError:
+            print("Please input a number\n")
+            return value_for_player()
+    return player_values
+player_values = value_for_player() # should be a list
+print(player_values)
+player_values = [float(value.replace(',', '')) for value in player_values]
+print(value)
