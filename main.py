@@ -11,6 +11,10 @@ import math
 
 # Variables
 value = []
+
+
+print("Welcome to the Money Calculator\n")
+# Functions
 def ordinalnumbers(n):
     if 10 <= n % 100 <= 20:
         suffix = 'th'
@@ -47,9 +51,8 @@ print(players)
 def value_for_player():
     player_values = []
     for i in range(amount_players):
-        i += 1
         try:
-            value = input(f"Set the value for the {ordinalnumbers(i)} player (input in millions): ")
+            value = input(f"Set the amount of money for '{players[i]}': ")
             player_values.append(value)
         except ValueError:
             print("Please input a number\n")
@@ -57,5 +60,5 @@ def value_for_player():
     return player_values
 player_values = value_for_player() # should be a list
 print(player_values)
-player_values = [float(value.replace(',', '')) for value in player_values]
-print(value)
+formatted_values = [f"{value:,.2f}" for value in player_values]
+print(formatted_values)
