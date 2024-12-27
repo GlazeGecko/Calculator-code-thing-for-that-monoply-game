@@ -11,7 +11,7 @@ import math
 
 # Variables
 value = []
-
+e = 0
 
 print("Welcome to the Money Calculator\n")
 # Functions
@@ -51,14 +51,25 @@ print(players)
 def value_for_player():
     player_values = []
     for i in range(amount_players):
-        try:
-            value = input(f"Set the amount of money for '{players[i]}': ")
-            player_values.append(value)
-        except ValueError:
-            print("Please input a number\n")
-            return value_for_player()
+        while True:
+            try:
+                value = input(f"Set the amount of money for '{players[i]}': ")
+                value = float(value.replace(",", "").replace("$", "").replace(" ", ""))
+                player_values.append(value)
+                break
+            except ValueError:
+                print("Please input a number\n")
+                continue
     return player_values
 player_values = value_for_player() # should be a list
 print(player_values)
 formatted_values = [f"{value:,.2f}" for value in player_values]
-print(formatted_values)
+formatted_values = [f"${value}" for value in formatted_values]
+for i in range(amount_players):
+    print(f"{players[i]} has {formatted_values[i]}")
+def calculate_amount():
+    player_calculate = input("Which player's amount do you want to calculate?")
+    
+
+    return players[e]
+calculate_amount()
