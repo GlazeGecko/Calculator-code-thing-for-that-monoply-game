@@ -35,7 +35,6 @@ def amount_players():
     except ValueError:
         print("Please input a number\n")
         return amount_players()
-amount_players = amount_players()
 
 def get_player_name():
     player_names = []
@@ -46,7 +45,6 @@ def get_player_name():
     return player_names
 
 players = get_player_name()
-print(players)
 
 def value_for_player():
     player_values = []
@@ -62,7 +60,6 @@ def value_for_player():
                 continue
     return player_values
 player_values = value_for_player() # should be a list
-print(player_values)
 formatted_values = [f"{value:,.2f}" for value in player_values]
 formatted_values = [f"${value}" for value in formatted_values]
 for i in range(amount_players):
@@ -72,4 +69,3 @@ def calculate_amount():
     
 
     return players[e]
-calculate_amount()
