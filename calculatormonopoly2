@@ -1,0 +1,34 @@
+#### monopoly calculator code thing
+## what needs to work
+# get the number of players
+# allow to change the money amount of each of those players
+# easy interface (least important goal)
+
+import time
+import math
+print('Monopoly Money calculator\n')
+
+playerlist = []
+playerlistM = []
+def amountofplayers():
+    try:
+        players = int(input('Enter the amount of players in the game: '))
+        if players < 2:
+            print('Minimum players: 2')
+        elif players > 8:
+            print('Maximum players: 8')
+    except ValueError:
+        print('Error: Integers only')
+    return players
+def playernames():
+    for x in range(amountofplayers()):
+        askname = input(f"Player {x+1}'s name: ")
+        playerlist.append(askname)
+        try:
+            askmoney = int(input(f"{playerlist[x]} money amount (set without comma's or $):"))
+        except ValueError:
+            print('Error: Integers only')
+        playerlistM.append(askmoney)
+run = True
+while run:
+    pass
