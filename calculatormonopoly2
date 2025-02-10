@@ -4,31 +4,107 @@
 # allow to change the money amount of each of those players
 # easy interface (least important goal)
 
-import time
-import math
 print('Monopoly Money calculator\n')
-
-playerlist = []
-playerlistM = []
-def amountofplayers():
-    try:
-        players = int(input('Enter the amount of players in the game: '))
-        if players < 2:
-            print('Minimum players: 2')
-        elif players > 8:
-            print('Maximum players: 8')
-    except ValueError:
-        print('Error: Integers only')
-    return players
-def playernames():
-    for x in range(amountofplayers()):
-        askname = input(f"Player {x+1}'s name: ")
-        playerlist.append(askname)
+DEFAULTBALANCE = 2000000
+def amountofplayersget():
+    while True:
+        players = input('Enter the amount of players in the game: ')
         try:
-            askmoney = int(input(f"{playerlist[x]} money amount (set without comma's or $):"))
+            players = int(players)
+            if players < 2:
+                print('Minimum players: 2')
+            elif players > 8:
+                print('Maximum players: 8')
+            else:
+                print(f'{players} players added to the game')
+                return players
         except ValueError:
-            print('Error: Integers only')
-        playerlistM.append(askmoney)
+            print('\nError: Integers only')
+def playernamesandvalues(players, ):
+    playerlist = []
+    playerlistB = []
+    for x in range(players):
+        while True:
+            askname = input(f"Player {x+1}'s name: ").strip().lower() # if u add the same name at least once it will go in an infinite loop in command adjusting balance (line 49 onwards)
+            if askname in playerlist:
+                print('Error: Name already exists in the list')
+            else:
+                playerlist.append(askname)
+                break
+    print(f"All {players} players added to the game.")
+    print("\nYou can use the default amount ($2,000,000) by typing 'd'") #testing
+    print("(Set the amount without using comma's or '$')")
+    for x in range(players):
+        while True:
+            try:
+                askmoney = input(f"Set balance for '{playerlist[x]}' (Player {x+1}): ").strip(',$ ')
+                if askmoney == 'd':
+                    playerlistB.append(DEFAULTBALANCE)
+                    askmoney = DEFAULTBALANCE
+                else:
+                    askmoney = int(askmoney)
+                    playerlistB.append(askmoney)
+                break
+            except ValueError:
+                print("Error: Something went wrong (Did not convert to int on 'else' or the letter isn't being used anywhere)")
+        print(f"Player {x+1} ({playerlist[x]}) balance updated to have '${askmoney}'")
+    return playerlist, playerlistB
+def displayplayers(playerlist, playerlistB):
+    print('\nPlayers:')
+    for x, name in enumerate(playerlist, start=1):
+        print(f'    Player {x}: {name}, Balance: ${playerlistB[x-1]}')
+def commands(command, playerlist, playerlistB):
+    if command == 'a':
+        adjustbal = input("Who's balance are you modifiying?\n").strip().lower()
+        if adjustbal in playerlist:
+            index = playerlist.index(adjustbal)
+            while True:
+                try:
+                    newbalance = input(f"Enter new balance for '{adjustbal}' (Player {index+1}, previous balance: {playerlistB[index]}): ").strip(',$')
+                    if newbalance == 'd':
+                        newbalance = DEFAULTBALANCE
+                        playerlistB[index] = newbalance
+                    else:
+                        newbalance = int(newbalance)
+                        playerlistB[index] = newbalance
+                    print(f"Updated {adjustbal}'s balance to ${newbalance}")
+                    break
+                except ValueError:
+                    print('Error: Integers only')
+        else:
+            print(f"{adjustbal} was not found")
+    elif command == 'n':
+        pass
+    elif command == 'b':
+        displayplayers(playerlist, playerlistB)
+    else:
+        print(f"'{command}' command doesn't exist (Error: How)")
+## Run area
+players = amountofplayersget()
+playerlist, playerlistB = playernamesandvalues(players)
+displayplayers(playerlist, playerlistB)
 run = True
 while run:
-    pass
+    if len(playerlist) != players or len(playerlistB) != players:
+        playerlist, playerlistB = playernamesandvalues(players)
+    else:
+        print("\nType 'c' for commands")
+        randominput = input("Text input: ").strip().lower()
+        if randominput == 'c':
+            print('\nCommands:')
+            print('    c: Show commands')
+            print('    a: Adjust player balances')
+            print('    n: Change player names')
+            print('    b: Show players and balances')
+            print('    q: Quit')
+        elif randominput == 'a':
+            commands('a', playerlist, playerlistB)
+        elif randominput == 'n':
+            commands('n', playerlist, playerlistB)
+        elif randominput == 'p':
+            commands('p', playerlist, playerlistB)
+        elif randominput == 'q':
+            run = False
+        else:
+            print('Invalid command')
+print('\nProgram ended\n')
